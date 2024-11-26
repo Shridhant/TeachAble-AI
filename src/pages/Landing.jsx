@@ -24,9 +24,15 @@ const Landing = () => {
   ];
 
   const generateAssignment = () => {
-    // Simulated AI assignment generation
-    const newAssignments = [
+    if (!subject) {
+      alert("Please select a subject first!");
+      return;
+    }
+
+    const allAssignments = [
+      // Mathematics
       {
+        subject: "Mathematics",
         type: "Multiple Choice",
         question: `Solve the equation for x: ${Math.floor(
           Math.random() * 10
@@ -36,16 +42,114 @@ const Landing = () => {
         options: ["Option A", "Option B", "Option C", "Option D"],
       },
       {
-        type: "Short Answer",
-        question: `Describe the key characteristics of ${subject} in the context of ${learningObjective}`,
+        subject: "Mathematics",
+        type: "Multiple Choice",
+        question: "Solve for y: 2y + 3 = 15",
+        options: ["5", "7", "9", "11"],
       },
       {
+        subject: "Mathematics",
         type: "Problem Solving",
-        question: `Create a detailed solution to a real-world problem related to ${subject}`,
+        question:
+          "Calculate the total cost of 5 items, each priced at $7.99, including a 6% sales tax.",
+      },
+
+      // Science
+      {
+        subject: "Science",
+        type: "Multiple Choice",
+        question: "What is the chemical symbol for gold?",
+        options: ["Au", "Ag", "Go", "Gl"],
+      },
+      {
+        subject: "Science",
+        type: "Short Answer",
+        question:
+          "Explain the greenhouse effect and its impact on climate change.",
+      },
+      {
+        subject: "Science",
+        type: "Problem Solving",
+        question:
+          "Develop a recycling plan for your school that reduces waste by 20%.",
+      },
+
+      // English
+      {
+        subject: "English",
+        type: "Multiple Choice",
+        question:
+          "Identify the subject in the sentence: 'The cat sat on the mat.'",
+        options: ["The cat", "sat", "on the mat", "the mat"],
+      },
+      {
+        subject: "English",
+        type: "Short Answer",
+        question: "Write a summary of a recent book you read.",
+      },
+      {
+        subject: "English",
+        type: "Problem Solving",
+        question:
+          "Compose a story starting with: 'The sky was unusually red that evening…'",
+      },
+
+      // History
+      {
+        subject: "History",
+        type: "Multiple Choice",
+        question: "Who was the first President of the United States?",
+        options: [
+          "George Washington",
+          "Thomas Jefferson",
+          "Abraham Lincoln",
+          "John Adams",
+        ],
+      },
+      {
+        subject: "History",
+        type: "Short Answer",
+        question:
+          "Describe the importance of the Magna Carta in shaping democracy.",
+      },
+      {
+        subject: "History",
+        type: "Problem Solving",
+        question:
+          "Create a timeline of events leading to the American Civil War.",
+      },
+
+      // Computer Science
+      {
+        subject: "Computer Science",
+        type: "Multiple Choice",
+        question: "What does HTML stand for?",
+        options: [
+          "Hyper Text Markup Language",
+          "High Transfer Machine Learning",
+          "Human Text Machine Language",
+          "Hyper Transfer Mail Language",
+        ],
+      },
+      {
+        subject: "Computer Science",
+        type: "Short Answer",
+        question: "Describe the concept of recursion with an example.",
+      },
+      {
+        subject: "Computer Science",
+        type: "Problem Solving",
+        question: "Design a simple website layout using HTML and CSS.",
       },
     ];
 
-    setGeneratedAssignments(newAssignments);
+    // Filter assignments based on the selected subject
+    const filteredAssignments = allAssignments.filter(
+      (assignment) => assignment.subject === subject
+    );
+
+    // Set the generated assignments to only those matching the subject
+    setGeneratedAssignments(filteredAssignments);
   };
 
   return (
@@ -138,7 +242,7 @@ const Landing = () => {
             {/* Generate Button */}
             <button
               onClick={generateAssignment}
-              className="w-full bg-indigo-600 text-white py-4 rounded-xl hover:bg-indigo-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transform hover:scale-105  "
+              className="w-full bg-indigo-600 text-white py-4 rounded-xl hover:bg-indigo-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transform hover:scale-105"
             >
               Generate Assignment
             </button>
@@ -152,35 +256,27 @@ const Landing = () => {
               </h2>
               <div className="overflow-x-auto bg-white rounded-2xl shadow-lg">
                 <table className="w-full border-collapse">
-                  <thead className="bg-indigo-50">
+                  <thead className="bg-indigo-100 text-indigo-800">
                     <tr>
-                      <th className="px-6 py-4 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">
-                        Type
-                      </th>
-                      <th className="px-6 py-4 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">
-                        Question
-                      </th>
-                      <th className="px-6 py-4 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">
-                        Options/Details
-                      </th>
+                      <th className="py-4 px-6 text-left">Type</th>
+                      <th className="py-4 px-6 text-left">Question</th>
+                      <th className="py-4 px-6 text-left">Options</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-indigo-100">
+                  <tbody>
                     {generatedAssignments.map((assignment, index) => (
                       <tr
                         key={index}
-                        className="hover:bg-indigo-50 transition-colors duration-150"
+                        className={`border-t ${
+                          index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                        }`}
                       >
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-indigo-900">
-                          {assignment.type}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-700">
-                          {assignment.question}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-700">
+                        <td className="py-4 px-6">{assignment.type}</td>
+                        <td className="py-4 px-6">{assignment.question}</td>
+                        <td className="py-4 px-6">
                           {assignment.options
                             ? assignment.options.join(", ")
-                            : "Requires detailed response"}
+                            : "N/A"}
                         </td>
                       </tr>
                     ))}
