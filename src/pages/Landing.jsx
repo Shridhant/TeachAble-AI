@@ -13,7 +13,7 @@ const Landing = () => {
     "Science",
     "English",
     "History",
-    "Computer Science",
+    
   ];
 
   const grades = [
